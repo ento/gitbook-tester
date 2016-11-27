@@ -66,4 +66,19 @@ describe(__filename, function() {
       .done();
   });
 
+  it('should create pages in custom root', function(testDone) {
+    tester.builder()
+      .withContent('This text is {% include "./includes/test.md" %}')
+      .withFile('includes/test.md', 'included from an external file!')
+      .withPage('subdirectory/nested', 'This page is in the directory `subdirectory`.', 1)
+      .withBookJson({root: 'content'})
+      .create()
+      .then(function(result) {
+        expect(path.relative(result.root, result.contentRoot)).toEqual('content');
+        expect(result.get('index.html').content).toEqual('<p>This text is included from an external file!</p>');
+        expect(result.get('subdirectory/nested.html').content).toEqual('<p>This page is in the directory <code>subdirectory</code>.</p>');
+      })
+      .fin(testDone)
+      .done();
+  });
 });
