@@ -107,6 +107,24 @@ Run an external command just before running ```gitbook build```. Command and arg
 
 Call it multiple times to run multiple commands.
 
+### .withLogger(winstonCompatibleLogger)
+Capture or redirect output from gitbook and other external commands.
+Defaults to the default winston logger.
+
+```js
+var logger = require('winston');
+require('winston-memory');
+
+const logger = new (winston.Logger)({
+  level: 'info',
+  transports: [new winston.transports.Memory()]
+};
+tester.builder()
+  .withLogger(logger)
+```
+
+The ENV variable ```DEBUG``` has no effect on a custom logger; make sure to set it up with the logging level you want.
+
 ### .create()
 Start a build of the book. Generates all the book resources, installs required
 plugins, attaches the provided local modules. Returns ```promise```.
