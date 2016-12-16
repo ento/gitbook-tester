@@ -98,6 +98,15 @@ Then you can use the file however you would like in your plugin or simply includ
 'This text is {% include "./includes/test.md" %}'
 ```
 
+### .beforeBuild(command, args)
+Run an external command just before running ```gitbook build```. Command and args are passed as-is to ```child_process.spawn```.
+
+```js
+.beforeBuild('make', ['-f', 'Makefile'])
+```
+
+Call it multiple times to run multiple commands.
+
 ### .create()
 Start a build of the book. Generates all the book resources, installs required
 plugins, attaches the provided local modules. Returns ```promise```.
